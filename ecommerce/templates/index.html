@@ -8,7 +8,14 @@
     <title></title>
 </head>
 <body>
-    <h1>HOLAAAAAAAAAAAA</h1>
+    <div>
+        <h1>List of categoria</h1>
+        {% include 'includes/catalogue/categories.html' %}
+    </div>
+    <div class="row d-flex justify-content-center">
+        <h1>List of products</h1>
+        {% include 'includes/catalogue/catalogue.html' %}
+    </div>    
 </body>
 </html>
 {% endblock %}

@@ -1,0 +1,20 @@
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for product in data %}    
+        <div class="col">
+          <div class="card h-100">
+            {% if product.image %}
+                <img src={{product.image}} alt="">
+            {% else %}
+                <img src="https://via.placeholder.com/250" alt="">
+            {% endif %}            
+            <div class="card-body">
+              <h5 class="card-title">{{product.id}}{{product.title}}</h5>
+              <p class="card-text">{{product.description}}</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-body-secondary">{{product.price}}</small>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+</div>
