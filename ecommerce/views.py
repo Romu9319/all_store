@@ -10,16 +10,17 @@ def index(request):
     response = requests.get(url_products)
 
     if response.status_code == 200:
-        categories = []
+        
+        product_count = {}
         data = response.json() 
 
         for products in data:
-            if products["category"] not in categories:
-                categories.append(products["category"] )
-
+            category = products["category"]
+            product_count[category] = product_count.get(category,0)+1
+           
         context = {
             "data": data,
-            "categories": categories
+            "categories": product_count
         }      
 
         return render(request, "index.html", context)
@@ -27,5 +28,20 @@ def index(request):
     else: 
         return render(request, "index.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
     
+def filterByCategory(request, category_name):
+    url = "https://fakestoreapi.com/products/category/" + category_name
+    response = requests.get(url)
+    print("CONTENIDO DE LA",url)
 
+    if response.status_code == 200:
 
+        products = response.json()
+
+        context = {
+            "categories": products,
+        }
+        print(products)
+        return render(request, "index.html", context)
+    
+    else: 
+        return render(request, "index.html", {'error_message': f"Error al obtener datos: {response.status_code}"})

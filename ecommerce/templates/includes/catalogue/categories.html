@@ -1,11 +1,15 @@
-<div class="blog-sb-widget multishopcategories_widget">
-    <h3 class="widgettitle">Categories</h3>
-        <a class="section-sb-label" style="color:black" href="/"> 
-            All categories  
-        </a>           
-        <div class="section-sb-current">                   
-            {% for category in categories %}
-                <h3>{{ category }}</h3>                 
-            {% endfor %} 
+<div class="row d-flex justify-content-center">
+    <div class="m-4 px-0">
+        <div class="list-group list-group-flush h-100">
+            <h4 class=" list-group-item list-group-item-dark mb-0">Filter by:</h4>
+            <a class="list-group-item list-group-item-action list-group-item-dark" style="color:black" href="/"> 
+                All  
+            </a> 
+            {% for category, count in categories.items %}
+                    <a href="{% url 'ecommerce:filterByCategory' category  %}" class="list-group-item list-group-item-action list-group-item-dark">
+                        <span class="">{{ category }}</span> : <span class="">{{count}}</span>                  
+                    </a>
+            {% endfor %}
         </div>
+    </div>
 </div>
