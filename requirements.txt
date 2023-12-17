@@ -3,3 +3,4 @@ Pillow
 mysqlclient
 fontawesomefree
 requests
+difflib

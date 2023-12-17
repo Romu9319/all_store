@@ -7,4 +7,5 @@ app_name = "ecommerce" # indica en que ubicación esta una vista que se quiera r
 urlpatterns = [ #los urlpatterns son las diferentes rutas de la aplicación 
     path('', views.index, name="index"),
     path('filterByCategory/<str:category_name>', views.filterByCategory, name="filterByCategory"),
+    path('filterByName', views.filterByName, name='filterByName')
 ] 

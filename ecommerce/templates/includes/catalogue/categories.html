@@ -4,7 +4,7 @@
             <h4 class=" list-group-item list-group-item-dark mb-0">Filter by:</h4>
             <a class="list-group-item list-group-item-action list-group-item-dark" style="color:black" href="/"> 
                 All  
-            </a> 
+            </a>
             {% for category, count in categories.items %}
                     <a href="{% url 'ecommerce:filterByCategory' category  %}" class="list-group-item list-group-item-action list-group-item-dark">
                         <span class="">{{ category }}</span> : <span class="">{{count}}</span>                  
