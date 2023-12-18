@@ -13,7 +13,6 @@ def index(request):
     if response.status_code == 200:               
         product_count = {}
         data = response.json() 
-        print("LA DATA", data)
 
         for products in data:
             category = products["category"]
@@ -30,8 +29,8 @@ def index(request):
     
 """ Vista de filtrado por categorias """    
 def filterByCategory(request, category_name): 
-    url = "https://fakestoreapi.com/products/category/" + category_name
-    response = requests.get(url)
+    url_category = "https://fakestoreapi.com/products/category/" + category_name
+    response = requests.get(url_category)
 
     if response.status_code == 200:
         products = response.json()
@@ -57,8 +56,7 @@ def filterByName(request):
         for product in products:
             name = product.get("title", "")
             similarity_ratio = difflib.SequenceMatcher(None, name_get.lower(), name.lower()).ratio()
-            print(f"name_get: {name_get}, name: {name}, similarity_ratio: {similarity_ratio}")
-
+           
             if similarity_ratio > 0.2:
                 filter_products.append(product)
         
@@ -71,4 +69,18 @@ def filterByName(request):
         return render(request, "index.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
     
 """ Vista de detalles de productos """
+def productDetails(request, product_id):
+    url_product = "https://fakestoreapi.com/products/" + product_id
+    response = requests.get(url_product)
+
+    if response.status_code == 200:
+        product = response.json()
+        print("EL PRODUCTO", product)
+
+        context = {
+            "product": product,
+        }
+        return render(request, "detail.html", context)
     
+    else:
+        return render(request, "detail.html", {'error_message': f"Error al obtener datos: {response.status_code}"})

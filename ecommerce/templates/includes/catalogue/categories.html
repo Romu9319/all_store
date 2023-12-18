@@ -2,11 +2,11 @@
     <div class="m-4 px-0">
         <div class="list-group list-group-flush h-100">
             <h4 class=" list-group-item list-group-item-dark mb-0">Filter by:</h4>
-            <a class="list-group-item list-group-item-action list-group-item-dark" style="color:black" href="/"> 
+            <a class="list-group-item list-group-item-action list-group-item-dark scale-up" style="color:black" href="/"> 
                 All  
             </a>
             {% for category, count in categories.items %}
-                    <a href="{% url 'ecommerce:filterByCategory' category  %}" class="list-group-item list-group-item-action list-group-item-dark">
+                    <a href="{% url 'ecommerce:filterByCategory' category  %}" class="list-group-item list-group-item-action list-group-item-dark scale-up">
                         <span class="">{{ category }}</span> : <span class="">{{count}}</span>                  
                     </a>
             {% endfor %}

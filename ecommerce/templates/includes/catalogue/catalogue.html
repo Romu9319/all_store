@@ -1,12 +1,14 @@
 <div class="row h-20 d-flex justify-content-center">
     {% for product in data %}    
-        <div class="col-md-2 col-lg-2 col-xl-2 m-4 px-0" key="" >
-          <div class="card" style= "width: 12rem;">
-            {% if product.image %}
-                <img class="p-1"src={{product.image}} alt="" style= "width: 12rem; height: 13rem;">
-            {% else %}
-                <img src="https://via.placeholder.com/250" alt="">
-            {% endif %}            
+        <div class="scale-up col-md-2 col-lg-2 col-xl-2 m-4 px-0 shadow">
+          <div class="card border-light" style= "width: 12rem;">
+            <a href="{% url 'ecommerce:productDetails' product.id %}">
+              {% if product.image %}
+              <img class="p-1"src={{product.image}} alt="" style= "width: 12rem; height: 13rem;">
+              {% else %}
+                  <img src="https://via.placeholder.com/250" alt="">
+              {% endif %} 
+            </a>
             <div class="card-body">
               <h5 class="card-title"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.title}}</h5>
               <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.description}}</p>
