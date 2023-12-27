@@ -27,6 +27,7 @@ def index(request):
     else: 
         return render(request, "index.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
     
+
 """ Vista de filtrado por categorias """    
 def filterByCategory(request, category_name): 
     url_category = "https://fakestoreapi.com/products/category/" + category_name
@@ -43,6 +44,7 @@ def filterByCategory(request, category_name):
     else: 
         return render(request, "index.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
 
+
 """ Vista de filtrado por nombres """
 def filterByName(request):    
     name_get = request.GET.get("name", "")
@@ -56,7 +58,8 @@ def filterByName(request):
         for product in products:
             name = product.get("title", "")
             similarity_ratio = difflib.SequenceMatcher(None, name_get.lower(), name.lower()).ratio()
-           
+            print(f"name_get: {name_get}, name: {name}, similarity_ratio: {similarity_ratio}")
+
             if similarity_ratio > 0.2:
                 filter_products.append(product)
         
@@ -68,14 +71,14 @@ def filterByName(request):
     else: 
         return render(request, "index.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
     
+
 """ Vista de detalles de productos """
 def productDetails(request, product_id):
-    url_product = "https://fakestoreapi.com/products/" + product_id
+    url_product = "https://fakestoreapi.com/products/" + product_id    
     response = requests.get(url_product)
 
     if response.status_code == 200:
         product = response.json()
-        print("EL PRODUCTO", product)
 
         context = {
             "product": product,
@@ -84,3 +87,34 @@ def productDetails(request, product_id):
     
     else:
         return render(request, "detail.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
+    
+""" Vistas para el carro de compras """
+
+from .shoppingCart import Cart
+
+def shoppingCart(request):
+    
+    context= {
+        "hola": "hola"
+    }
+
+    return render(request, "shoppingCart.html", context )
+
+def addToCart(request, product_id):
+    cuantity = 1
+    url_product = "https://fakestoreapi.com/products/" + product_id
+    response = requests.get(url_product)
+
+    if response.status_code == 200:
+
+        product = response.json()
+        productCart = Cart(request)
+        productCart.add(product, cuantity)
+
+        print("EL PRODUCTO DENTRO DEL CART", request.session.get("cart"))
+
+        return render(request, "shoppingCart.html")
+    
+    else:
+        return render(request, "shoppingCart.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
+    

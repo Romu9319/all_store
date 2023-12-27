@@ -1,4 +1,4 @@
-<div class="row h-20 d-flex justify-content-center">
+<div class="row d-flex justify-content-center">
     {% for product in data %}    
         <div class="scale-up col-md-2 col-lg-2 col-xl-2 m-4 px-0 shadow">
           <div class="card border-light" style= "width: 12rem;">
@@ -9,10 +9,12 @@
                   <img src="https://via.placeholder.com/250" alt="">
               {% endif %} 
             </a>
-            <div class="card-body">
-              <h5 class="card-title"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.title}}</h5>
-              <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.description}}</p>
-            </div>
+            <div class="card-body" >
+              <a class="text-decoration-none text-dark" href="{% url 'ecommerce:productDetails' product.id %}">
+                <h5 class="card-title"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.title}}</h5>
+                <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.description}}</p>
+              </a>
+              </div>
             <div class="card-footer">
               <small class="text-body-secondary">{{product.price}}</small>
             </div>
