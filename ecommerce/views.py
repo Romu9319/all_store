@@ -79,7 +79,6 @@ def productDetails(request, product_id):
 
     if response.status_code == 200:
         product = response.json()
-
         context = {
             "product": product,
         }
@@ -101,7 +100,12 @@ def shoppingCart(request):
     return render(request, "shoppingCart.html", context )
 
 def addToCart(request, product_id):
-    cuantity = 1
+
+    if request.method == 'POST':
+        cuantity = int(request.POST["cuantity"])
+    else:
+        cuantity = 1
+        
     url_product = "https://fakestoreapi.com/products/" + product_id
     response = requests.get(url_product)
 
@@ -111,10 +115,30 @@ def addToCart(request, product_id):
         productCart = Cart(request)
         productCart.add(product, cuantity)
 
-        print("EL PRODUCTO DENTRO DEL CART", request.session.get("cart"))
+        return render(request, "shoppingCart.html")
+    
+    else:
+        return render(request, "shoppingCart.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
+
+def deleteProduct(request, product_id):
+    
+    url_product = "https://fakestoreapi.com/products/" + product_id
+    response = requests.get(url_product)
+
+    if response.status_code == 200:
+
+        product = response.json()
+        
+        productCart = Cart(request)
+        productCart.delete(product)
 
         return render(request, "shoppingCart.html")
     
     else:
         return render(request, "shoppingCart.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
-    
+
+def clearCart(request):
+    cartProduct = Cart(request)
+    cartProduct.clear()
+
+    return render(request, "shoppingCart.html")

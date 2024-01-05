@@ -10,5 +10,7 @@ urlpatterns = [ #los urlpatterns son las diferentes rutas de la aplicación
     path('filterByName', views.filterByName, name='filterByName'),
     path('productDetails/<str:product_id>', views.productDetails, name="productDetails" ),
     path('cart', views.shoppingCart, name="shoppingCar"),
-    path('addToCart/<str:product_id>', views.addToCart, name="addToCart")
-] 
+    path('addToCart/<str:product_id>', views.addToCart, name="addToCart"),
+    path('deleteProduct/<str:product_id>', views.deleteProduct, name='deleteProduct'),
+    path('clearCart', views.clearCart, name='clearCart')
+]   
