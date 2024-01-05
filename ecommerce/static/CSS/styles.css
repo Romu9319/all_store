@@ -1,9 +1,19 @@
 .scale-up {
-    transition: transform 0.3s ease-in-out;
-    
+    transition: transform 0.3s ease-in-out;   
 }
 
 .scale-up:hover {
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+.scaled-container {
+    width: 30px; 
+    height: 30px; 
+    font-size: 12px;
+    line-height: 20px;
 }

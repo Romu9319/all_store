@@ -1,26 +1,31 @@
+{% load static %}
 <nav class="navbar navbar-light" style="background: #009d71;">
     <div class="container-fluid ms-5 m-2">
         <div class="d-flex">
-            <a class="navbar-brand mx-5" style="color: white" href="">
-                <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+            <a class="navbar-brand mx-5" style="color: white" href="/">
+                <img src="" alt="" width="30" height="24" class="d-inline-block align-text-top">
                 ElLogo
             </a>
             <form method="get" class="d-flex ms-3" action="{% url 'ecommerce:filterByName' %}"> 
                 {% csrf_token %}               
                 <input class="form-control me-2" name="name" type="search" placeholder="Search..." aria-label="Search">
                 <button class="btn btn-outline-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            </form>
+            </form>            
         </div>      
-        <div class="me-5 d-flex justify-content-center">
-            <div class="dropdown">
-                <i class="fa-solid fa-cart-arrow-down mx-4 dropdown-toggle"  style="color: white" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                <ul>
-                    <li>hola</li>
-                    <li>adios</li>
-                </ul>
+        <div class="me-5 d-flex justify-content-center align-items-center">            
+            <div class="me-4">
+                <a type="button" class="btn position-relative" href="/cart">
+                    <i class="fa-solid fa-cart-arrow-down" style="color: white"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill mt-2" style="background: white; color:#009d71">
+                        {{request.session.cart.items|length}}
+                    </span>                    
+                </a>        
             </div>    
-            <div>
-                <i class="fa-regular fa-user me-5"  style="color: white"></i>
+            <div class="me-4" style="color: white">
+                <strong>$ {{request.session.totalAmount}}</strong>
+            </div>
+            <div class="ms-1 me-5">
+                <i class="fa-regular fa-user"  style="color: white"></i>
             </div>     
         </div>
     </div>   

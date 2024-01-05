@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 import requests
 
@@ -115,6 +115,9 @@ def addToCart(request, product_id):
         productCart = Cart(request)
         productCart.add(product, cuantity)
 
+        if request.method == 'GET':
+            return redirect("/")
+        
         return render(request, "shoppingCart.html")
     
     else:

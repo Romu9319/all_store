@@ -15,8 +15,11 @@
                 <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.description}}</p>
               </a>
               </div>
-            <div class="card-footer">
-              <small class="text-body-secondary">{{product.price}}</small>
+            <div class="card-footer d-flex justify-content-end align-items-center p-2">
+              <small class="text-body-secondary me-2">{{product.price}}</small>
+              <a  class="btn p-1 me-2" style="background: #009d71; color: white" href="{% url 'ecommerce:addToCart' product.id %}">
+                <i class="fa-solid fa-cart-arrow-down"></i>
+              </a>  
             </div>
           </div>
         </div>
