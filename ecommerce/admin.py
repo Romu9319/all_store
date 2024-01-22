@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Category, Product
+from .models import Category, Product, Client
 # Incluyo los modelos de mis tablas en el panel de administración 
 admin.site.register(Category)
 #admin.site.register(Product)

@@ -21,9 +21,11 @@
                     </span>                    
                 </a>        
             </div>    
+            {% if request.session.totalAmount > 0%}
             <div class="me-4" style="color: white">
                 <strong>$ {{request.session.totalAmount}}</strong>
             </div>
+            {% endif %}            
             <div class="ms-1 me-5">
                 <i class="fa-regular fa-user"  style="color: white"></i>
             </div>     
