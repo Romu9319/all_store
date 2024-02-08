@@ -7,9 +7,11 @@
             <h2>Shopping Cart (intentar poner la cantidad de items)</h2>
         </div> 
         <div class="d-flex justify-content-start mx-5 my-3">
-            <button type="button" class="btn me-3 p-1" style="background: #009d71; color: white">
-                Make Payment
-            </button>
+            <a href="{% url 'ecommerce:registerOrder' %}">
+                <button type="button" class="btn me-3 p-1" style="background: #009d71; color: white">
+                    Make Payment
+                </button>
+            </a>            
             <div>
                 <p>Total: {{request.session.totalAmount}}</p>
             </div>

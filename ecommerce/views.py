@@ -150,6 +150,8 @@ def clearCart(request):
 # VISTA PARA CLIENTES Y USUARIOS
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+
 from .forms import ClientForm
 
 def singupUser(request):
@@ -167,19 +169,66 @@ def singupUser(request):
     return render(request, "singUp.html")
 
 def loginUser(request):
+    landingPage = request.GET.get("next", None)
+    context = {
+        "destination": landingPage
+    }
 
+    if request.method == 'POST':
+        dataUser = request.POST["user"]
+        dataPassword = request.POST["password"]
+        dataDestination = request.POST["destination"]
+
+        userAuth = authenticate(request, username=dataUser, password=dataPassword)
+        if userAuth is not None:
+            login(request, userAuth)
+
+            if dataDestination != "None":
+                return redirect(dataDestination)
+            
+            return redirect("/userAccount")
+        else:
+            context = {
+                "authError": "Email or password incorrect"
+            }
+
+    return render(request, "login.html",context)
+
+def logoutUser(request):
+
+    logout(request)
     return render(request, "login.html")
 
 def userAccount(request):
 
-    clientForm = ClientForm()
+    try:
+        editClient = Client.objects.get(user = request.user)
+
+        dataClient = {
+            "name": request.user.first_name,
+            "last_name": request.user.last_name,
+            "email": request.user.email,
+            "address": editClient.address,
+            "phone": editClient.phone,
+            "gender": editClient.gender,
+            "birthdate": editClient.birthdate,
+        }
+    
+    except:
+        dataClient = {
+            "name": request.user.first_name,
+            "last_name": request.user.last_name,
+            "email": request.user.email
+        }
+
+    clientForm = ClientForm(dataClient)
     context = {
         "clientForm": clientForm
     }
 
     return render(request, "userAccount.html", context)
 
-def clientUpdate(request):
+def updateClient(request):
     menssage = ""
 
     if request.method == "POST":
@@ -202,8 +251,6 @@ def clientUpdate(request):
             userUpdate.email = dataClient["email"]
             userUpdate.save()
 
-            
-
             menssage = "to funciona"
 
     context = {
@@ -212,3 +259,34 @@ def clientUpdate(request):
     }
 
     return render(request, "userAccount.html", context)
+
+"""Vistas para procesos de compra"""
+@login_required(login_url='/loginUser')
+def registerOrder(request):
+    
+    try:
+        editClient = Client.objects.get(user = request.user)
+
+        dataClient = {
+            "name": request.user.first_name,
+            "last_name": request.user.last_name,
+            "email": request.user.email,
+            "address": editClient.address,
+            "phone": editClient.phone,
+            "gender": editClient.gender,
+            "birthdate": editClient.birthdate,
+        }
+    
+    except:
+        dataClient = {
+            "name": request.user.first_name,
+            "last_name": request.user.last_name,
+            "email": request.user.email
+        }
+
+    clientForm = ClientForm(dataClient)
+    context = {
+        'clientForm':clientForm
+    }
+
+    return render(request, "order.html", context)

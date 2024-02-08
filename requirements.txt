@@ -4,3 +4,4 @@ mysqlclient
 fontawesomefree
 requests
 difflib
+django-paypal

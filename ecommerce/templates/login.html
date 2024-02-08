@@ -22,21 +22,23 @@
             <p class="my-0">Registration & Login</p>
         </div>
         <hr class="mx-4">
-        <form class="mx-4 mb-3">
+        <form class="mx-4 mb-3" method="post" action="{% url 'ecommerce:loginUser'%}">
             {% csrf_token %}
+            <input type="hidden" name="destination" value="{{destination}}"/>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+              <input type="email" class="form-control" name="user"  aria-describedby="emailHelp">
+              <div class="form-text">We'll never share your email with anyone.</div>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
+              <input type="password" class="form-control" name="password">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-          </form> 
+        </form> 
+            <h5>mensaje de error {{authError}}</h5>
           <hr class="mx-4 mt-0">
-          <p class="text-center">New to AllStore? / <a href="createUser">Sing up</a></p>      
+          <p class="text-center">New on AllStore? / <a href="createUser">Sing up</a></p>      
     </div> 
 </div>
 
