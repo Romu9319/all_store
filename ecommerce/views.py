@@ -1,8 +1,8 @@
+from django.urls import reverse
 from django.shortcuts import render, redirect
-from .models import Category, Product, Client
+from .models import Category, Product, Client, Order, OrderDetail
 
 import requests
-
 import difflib
 
 # Create your views here.
@@ -290,3 +290,67 @@ def registerOrder(request):
     }
 
     return render(request, "order.html", context)
+
+@login_required(login_url='/login')
+def confirmOrder(request):
+    context = {}
+    if request.mthod == "POST":
+        #actualizamos usuario
+        userUpdate = User.objects.get(pk=request.user.id)
+        userUpdate.first_name = request.POST['name']
+        userUpdate.last_name = request.POST['last_name']
+        userUpdate.save()
+        #registramos o actualizamos
+        try: 
+            customerOrder = Client.objects.get(user=request.user)
+            customerOrder.phone = request.POST['phone']
+            customerOrder.address = request.POST['address']
+            customerOrder.save()
+        except:
+            customerOrder = Client()
+            customerOrder.user = userUpdate
+            customerOrder.phone = request.POST['phone']
+            customerOrder.address = request.POST['address']
+            customerOrder.save()
+
+    # registramos pedido
+        orderNumber = ''
+        totalAmount = 0
+        newOrder = Order()
+        newOrder.client = customerOrder
+        newOrder.save()
+
+    # actuañlizar pedido
+        orderNumber = 'ORD' + newOrder.registration_date.strftime('%Y') + str(newOrder.id)
+        newOrder.order_number = orderNumber
+        newOrder.total_amount = totalAmount
+        newOrder.save()
+        
+    return render(request, "payments.html")
+
+
+
+
+
+
+#Paypal prueba
+from paypal.standard.forms import PayPalPaymentsForm
+
+def view_that_asks_for_money(request):
+
+    # What you want the button to do.
+    paypal_dict = {
+        "business": "sb-nntlf27846788@business.example.com",
+        "amount": "10000.00",
+        "item_name": "producto de prueba",
+        "invoice": "xXx XxX",
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return": request.build_absolute_uri('/'),
+        "cancel_return": request.build_absolute_uri('/logoutUser'),
+        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
+    }
+
+    # Create the instance.
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render(request, "payments.html", context)

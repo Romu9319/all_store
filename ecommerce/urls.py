@@ -18,5 +18,7 @@ urlpatterns = [ #los urlpatterns son las diferentes rutas de la aplicación
     path('logoutUser', views.logoutUser, name="logoutUser"),
     path('userAccount', views.userAccount, name="userAccount"),
     path('updateClient', views.updateClient, name="updateClient"),
-    path('registerOrder', views.registerOrder, name="registerOrder")
+    path('registerOrder', views.registerOrder, name="registerOrder"),
+    path('paypaltest', views.view_that_asks_for_money, name="paypaltest"),
+    path('confirmOrder', views.confirmOrder, name="confirmOrder")
 ]   

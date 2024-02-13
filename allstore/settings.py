@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,"media") # permite unir dos rutas en este caso el directorio base(BASE_DIR) con la carpeta "media"
 MEDIA_URL = "/media/" # es la ruta url donde ira la carpeta
+
+PAYPAL_TEST = True
