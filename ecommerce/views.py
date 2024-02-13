@@ -320,37 +320,41 @@ def confirmOrder(request):
         newOrder.client = customerOrder
         newOrder.save()
 
-    # actuañlizar pedido
+    # Registramos el detalle del pedido
+    orderCart = request.session.get('cart')
+    
+    for key, value in orderCart.items():
+        orderProduct = Product.objects.get(pk=value['product_id'])
+        detail = OrderDetail()
+        detail.order = newOrder
+        detail.product = orderProduct
+        detail.cuantity = int(value['cuantity'])
+        detail.subtotal = float(value['subtotal'])
+        detail.save()
+
+    # actualizar pedido
         orderNumber = 'ORD' + newOrder.registration_date.strftime('%Y') + str(newOrder.id)
         newOrder.order_number = orderNumber
         newOrder.total_amount = totalAmount
         newOrder.save()
         
-    return render(request, "payments.html")
-
-
-
-
-
-
-#Paypal prueba
-from paypal.standard.forms import PayPalPaymentsForm
-
-def view_that_asks_for_money(request):
-
-    # What you want the button to do.
     paypal_dict = {
         "business": "sb-nntlf27846788@business.example.com",
-        "amount": "10000.00",
-        "item_name": "producto de prueba",
-        "invoice": "xXx XxX",
+        "amount": totalAmount,
+        "item_name": "Order Code" + orderNumber,
+        "invoice": orderNumber,
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return": request.build_absolute_uri('/'),
-        "cancel_return": request.build_absolute_uri('/logoutUser'),
-        "custom": "premium_plan",  # Custom command to correlate to some function later (optional)
-    }
+        "cancel_return": request.build_absolute_uri('/'),
+        }
 
-    # Create the instance.
-    form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form}
-    return render(request, "payments.html", context)
+    orderForm = PayPalPaymentsForm(initial=paypal_dict)
+    
+    context = {
+            "order": newOrder,
+            "orderForm": orderForm
+        }
+    
+    return render(request, "payments.html")
+
+### HACER LA VISTA DE COMPRA ###
