@@ -134,3 +134,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR,"media") # permite unir dos rutas en este cas
 MEDIA_URL = "/media/" # es la ruta url donde ira la carpeta
 
 PAYPAL_TEST = True
+
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'be0f6cb8c68fc7'
+EMAIL_HOST_PASSWORD = '4803c8e3060908'
+EMAIL_PORT = '2525'

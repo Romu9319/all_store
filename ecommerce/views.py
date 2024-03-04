@@ -1,6 +1,9 @@
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from .models import Category, Product, Client, Order, OrderDetail
+from paypal.standard.forms import PayPalPaymentsForm 
+from django.core.mail import send_mail
+
 
 import requests
 import difflib
@@ -92,13 +95,8 @@ def productDetails(request, product_id):
 
 from .shoppingCart import Cart
 
-def shoppingCart(request):
-    
-    context= {
-        "hola": "hola"
-    }
-
-    return render(request, "shoppingCart.html", context )
+def shoppingCart(request):    
+    return render(request, "shoppingCart.html" )
 
 def addToCart(request, product_id):
 
@@ -294,7 +292,7 @@ def registerOrder(request):
 @login_required(login_url='/login')
 def confirmOrder(request):
     context = {}
-    if request.mthod == "POST":
+    if request.method == "POST":
         #actualizamos usuario
         userUpdate = User.objects.get(pk=request.user.id)
         userUpdate.first_name = request.POST['name']
@@ -306,6 +304,7 @@ def confirmOrder(request):
             customerOrder.phone = request.POST['phone']
             customerOrder.address = request.POST['address']
             customerOrder.save()
+            
         except:
             customerOrder = Client()
             customerOrder.user = userUpdate
@@ -313,48 +312,86 @@ def confirmOrder(request):
             customerOrder.address = request.POST['address']
             customerOrder.save()
 
-    # registramos pedido
+        # registramos pedido
         orderNumber = ''
-        totalAmount = 0
+        totalAmount = float(request.session.get("totalAmount"))
         newOrder = Order()
         newOrder.client = customerOrder
         newOrder.save()
 
-    # Registramos el detalle del pedido
-    orderCart = request.session.get('cart')
-    
-    for key, value in orderCart.items():
-        orderProduct = Product.objects.get(pk=value['product_id'])
-        detail = OrderDetail()
-        detail.order = newOrder
-        detail.product = orderProduct
-        detail.cuantity = int(value['cuantity'])
-        detail.subtotal = float(value['subtotal'])
-        detail.save()
+        # Registramos el detalle del pedido
+        orderCart = request.session.get('cart')
+        for key, value in orderCart.items(): 
 
-    # actualizar pedido
+            orderProduct = "https://fakestoreapi.com/products/" + value["product_id"]
+            response = requests.get(orderProduct)
+
+            if response.status_code == 200:
+                productDetail = response.json()
+
+            detail = OrderDetail()
+            detail.order = newOrder
+            detail.product = productDetail
+            detail.cuantity = int(value['cuantity'])
+            detail.subtotal = float(value['subtotal'])
+            detail.save()
+
+        # actualizar pedido
         orderNumber = 'ORD' + newOrder.registration_date.strftime('%Y') + str(newOrder.id)
         newOrder.order_number = orderNumber
         newOrder.total_amount = totalAmount
         newOrder.save()
+
+        #creo variable de session para pedido
+        request.session['orderId'] = newOrder.id
+            
+        paypal_dict = {
+            "business": "sb-nntlf27846788@business.example.com",
+            "amount": totalAmount,
+            "item_name": "Order Code" + orderNumber,
+            "invoice": orderNumber,
+            "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+            "return": request.build_absolute_uri('/'),
+            "cancel_return": request.build_absolute_uri('/'),
+            }
+
+        orderForm = PayPalPaymentsForm(initial=paypal_dict)
         
-    paypal_dict = {
-        "business": "sb-nntlf27846788@business.example.com",
-        "amount": totalAmount,
-        "item_name": "Order Code" + orderNumber,
-        "invoice": orderNumber,
-        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-        "return": request.build_absolute_uri('/'),
-        "cancel_return": request.build_absolute_uri('/'),
-        }
+        context = {
+                "order": newOrder,
+                "orderForm": orderForm
+            }
 
-    orderForm = PayPalPaymentsForm(initial=paypal_dict)
-    
-    context = {
-            "order": newOrder,
-            "orderForm": orderForm
-        }
-    
-    return render(request, "payments.html")
+        cart = Cart(request)
+        cart.clear()
+        
+    return render(request, "purchase.html", context)
 
-### HACER LA VISTA DE COMPRA ###
+### HACER LA PLANTILLA DE COMPRA ###
+### HACER LA PLANTILLA PAYMENT ###
+
+@login_required(login_url='/login')
+def thanks(request):
+    paypalId = request.GET.get("PayerID", None)
+    context = {}
+
+    if paypalId is not None:
+        orderId = request.session.get('orderId')
+        order = Order.objects.get(pk=orderId)
+        order.status = "1"
+        order.save()
+
+        send_mail(
+            "Confirmacion de pedido",
+            "Numero de pedido" + order.order_number,
+            "danielerm1510@gmail.com",
+            [request.user.email],
+            fail_silently=False,
+        )
+
+    else:
+        redirect('/')
+
+    return render(request, "thanks.html")
+
+# CREAR PLANTILLA DE AGRADECIMIENTO
