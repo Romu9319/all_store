@@ -335,6 +335,7 @@ def confirmOrder(request):
             detail.cuantity = int(value['cuantity'])
             detail.subtotal = float(value['subtotal'])
             detail.save()
+            
 
         # actualizar pedido
         orderNumber = 'ORD' + newOrder.registration_date.strftime('%Y') + str(newOrder.id)
@@ -393,5 +394,4 @@ def thanks(request):
         redirect('/')
 
     return render(request, "thanks.html")
-
 # CREAR PLANTILLA DE AGRADECIMIENTO

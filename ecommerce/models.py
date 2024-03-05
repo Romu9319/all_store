@@ -46,7 +46,7 @@ class Order(models.Model):
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.RESTRICT)
-    product = models.ForeignKey(Product, on_delete=models.RESTRICT)
+    product = models.JSONField()
     cuantity = models.IntegerField(default=1)
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
 
