@@ -1,7 +1,7 @@
 <div class="row d-flex justify-content-center">
     {% for product in data %}    
         <div class="scale-up col-md-2 col-lg-2 col-xl-2 m-4 px-0 shadow">
-          <div class="card border-light" style= "width: 12rem;">
+          <div class="card border-light shadow" style= "width: 12rem;">
             <a href="{% url 'ecommerce:productDetails' product.id %}">
               {% if product.image %}
               <img class="p-1"src={{product.image}} alt="" style= "width: 12rem; height: 13rem;">

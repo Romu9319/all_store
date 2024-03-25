@@ -51,4 +51,4 @@ class OrderDetail(models.Model):
     subtotal = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return self.product.title
+        return self.product["title"]

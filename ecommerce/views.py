@@ -4,7 +4,6 @@ from .models import Category, Product, Client, Order, OrderDetail
 from paypal.standard.forms import PayPalPaymentsForm 
 from django.core.mail import send_mail
 
-
 import requests
 import difflib
 
@@ -91,12 +90,13 @@ def productDetails(request, product_id):
     else:
         return render(request, "detail.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
     
-""" Vistas para el carro de compras """
 
+""" Vistas para el carro de compras """
 from .shoppingCart import Cart
 
 def shoppingCart(request):    
     return render(request, "shoppingCart.html" )
+
 
 def addToCart(request, product_id):
 
@@ -122,6 +122,7 @@ def addToCart(request, product_id):
     else:
         return render(request, "shoppingCart.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
 
+
 def deleteProduct(request, product_id):
     
     url_product = "https://fakestoreapi.com/products/" + product_id
@@ -139,11 +140,13 @@ def deleteProduct(request, product_id):
     else:
         return render(request, "shoppingCart.html", {'error_message': f"Error al obtener datos: {response.status_code}"})
 
+
 def clearCart(request):
     cartProduct = Cart(request)
     cartProduct.clear()
 
     return render(request, "shoppingCart.html")
+
 
 # VISTA PARA CLIENTES Y USUARIOS
 from django.contrib.auth.models import User
@@ -151,6 +154,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
 from .forms import ClientForm
+
 
 def singupUser(request):
     
@@ -165,6 +169,7 @@ def singupUser(request):
             return redirect("/userAccount")
         
     return render(request, "singUp.html")
+
 
 def loginUser(request):
     landingPage = request.GET.get("next", None)
@@ -192,10 +197,12 @@ def loginUser(request):
 
     return render(request, "login.html",context)
 
+
 def logoutUser(request):
 
     logout(request)
     return render(request, "login.html")
+
 
 def userAccount(request):
 
@@ -225,6 +232,7 @@ def userAccount(request):
     }
 
     return render(request, "userAccount.html", context)
+
 
 def updateClient(request):
     menssage = ""
@@ -258,6 +266,7 @@ def updateClient(request):
 
     return render(request, "userAccount.html", context)
 
+
 """Vistas para procesos de compra"""
 @login_required(login_url='/loginUser')
 def registerOrder(request):
@@ -288,6 +297,7 @@ def registerOrder(request):
     }
 
     return render(request, "order.html", context)
+
 
 @login_required(login_url='/login')
 def confirmOrder(request):
@@ -352,7 +362,7 @@ def confirmOrder(request):
             "item_name": "Order Code" + orderNumber,
             "invoice": orderNumber,
             "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
-            "return": request.build_absolute_uri('/'),
+            "return": request.build_absolute_uri('/thanks'),
             "cancel_return": request.build_absolute_uri('/'),
             }
 
@@ -361,15 +371,10 @@ def confirmOrder(request):
         context = {
                 "order": newOrder,
                 "orderForm": orderForm
-            }
-
-        cart = Cart(request)
-        cart.clear()
+            }       
         
     return render(request, "purchase.html", context)
 
-### HACER LA PLANTILLA DE COMPRA ###
-### HACER LA PLANTILLA PAYMENT ###
 
 @login_required(login_url='/login')
 def thanks(request):
@@ -381,7 +386,9 @@ def thanks(request):
         order = Order.objects.get(pk=orderId)
         order.status = "1"
         order.save()
-
+        context = {
+            "order": order
+        }
         send_mail(
             "Confirmacion de pedido",
             "Numero de pedido" + order.order_number,
@@ -391,7 +398,10 @@ def thanks(request):
         )
 
     else:
-        redirect('/')
+        return redirect('/')
 
-    return render(request, "thanks.html")
+    cart = Cart(request)
+    cart.clear()
+
+    return render(request, "thanks.html", context)
 # CREAR PLANTILLA DE AGRADECIMIENTO

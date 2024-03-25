@@ -4,7 +4,7 @@
     <h2>Order number: {{order.order_number}}</h2>
     <div class="mt-2 d-flex justify-content-start">
         <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
-        <strong><h7>Home</h7></strong>
+            <strong><h7>Home</h7></strong>
         </a>             
         <p class="mx-2 my-0"> / </p>
         <p class="my-0">Personal and shipping information</p>
@@ -15,15 +15,37 @@
         </strong>
     </div>
 </div>
-<div class="mx-5">
-    <div class="card">
-        {% for detail in order.product_set.all%}
-            {{detail.title}}
-        {% endfor%}
+<div class="row mx-5 mt-3 d-flex justify-content-center ">                
+    <div class="col-7 mt-2">
+        {% for detail in order.orderdetail_set.all%}
+        <div class="card border-light shadow mb-2">
+            <div class="row mt-2 d-flex justify-content-start">
+                <div class="col-2 ms-3">
+                    <img src="{{detail.product.image}}" class="m-3" style= "width: 9rem; height: 10rem;">
+                </div>                    
+                <div class="col-6 ms-5">
+                    <h5>{{detail.product.title}}</h5>
+                    <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{value.description}}</p>
+                    <p> {{detail.product.category}}</p>
+                    <p> {{detail.cuantity}} $ {{detail.product.price}}</p>                        
+                </div>
+            </div>   
+        </div>            
+        {% endfor%}     
+    </div>        
+    <div class="card border-light shadow col-3 mt-2 mx-2" style="height: 11rem">
+        <h4 class="me-3">Summary</h4>
+        <div class="d-flex justify-content-between mx-3">
+            <h5 class="me-3" >Items:</h5>
+            <h5>{{request.session.cart.items|length}}</h5>
+        </div>
+        <div class="d-flex justify-content-between mx-3">
+            <h5 class="me-3" >Total:</h5>
+            <h5>{{request.session.totalAmount}}</h5>
+        </div>
+        <div class="d-flex justify-content-center mt-2">
+           {{orderForm.render}}     
+        </div>                
     </div>
 </div>
-
-
-
-
-{% endblock %}
+{% endblock %} 

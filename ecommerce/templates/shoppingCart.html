@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="my-4 mx-5 d-flex justify-content-center">
-    <div class="card mx-5 border-light" style="width: 65rem">
+    <div class="card mx-5 border-light shadow" style="width: 65rem">
         <div class="mx-5 mt-2">
             <h2>Shopping Cart (intentar poner la cantidad de items)</h2>
         </div> 
@@ -25,7 +25,7 @@
 </div>
 {% for key, value in request.session.cart.items %}
 <div class="my-4 mx-5 d-flex justify-content-center">    
-    <div class="card mx-5 border-light" style="width: 65rem">
+    <div class="card mx-5 border-light shadow" style="width: 65rem">
         <div class="row g-0">
             <div class="col-2">
                 <img src="{{value.image}}" class="m-3" style= "width: 9rem; height: 10rem;">

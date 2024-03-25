@@ -1,8 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div class="d-flex justify-content-start">
-   <h1>Muchas gracias</h1>
+<div class="d-flex justify-content-center m-5">
+   <div class="card border-light shadow mx-5">
+      <h3 class="mt-2 px-3">
+         Your order {{order.order_number}} has been processed successfully
+      </h3>
+      <div class="mt-2 px-3">
+         <strong>
+            {{order.registration_date}}
+         </strong>
+     </div>
+     <h4 class="mt-2 px-3">Thanks for your purchase </h4>
+      <div class="mt-2 px-3 pb-3 d-flex justify-content-start">
+         <a class="" href="/"> 
+            <strong><h7>Continue buying</h7></strong>
+         </a>                      
+      </div>
+  </div>
 </div> 
 
 {% endblock %}
