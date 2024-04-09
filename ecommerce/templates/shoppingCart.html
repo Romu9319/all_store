@@ -1,26 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
 
+### ver como hago que el formulario envie la cantidad (etiqueta input) del producto
+
 <div class="my-4 mx-5 d-flex justify-content-center">
     <div class="card mx-5 border-light shadow" style="width: 65rem">
         <div class="mx-5 mt-2">
-            <h2>Shopping Cart (intentar poner la cantidad de items)</h2>
+            <h2>Shopping Cart: {{request.session.cart.items|length}} items</h2>
         </div> 
-        <div class="d-flex justify-content-start mx-5 my-3">
-            <a href="{% url 'ecommerce:registerOrder' %}">
-                <button type="button" class="btn me-3 p-1" style="background: #009d71; color: white">
-                    Make Payment
-                </button>
-            </a>            
-            <div>
-                <p>Total: {{request.session.totalAmount}}</p>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-start mx-5">
+                <a class="" href="{% url 'ecommerce:registerOrder' %}">
+                    <button type="button" class="btn me-3 p-1" style="background: #009d71; color: white">
+                        Make Payment
+                    </button>
+                </a>   
+                <div class="btn me-3 p-1">
+                    <p>Total: {{request.session.totalAmount}}</p>
+                </div>                
             </div>
-            <a href="{% url 'ecommerce:clearCart' %}">
+            <a class="justify-content-end" href="{% url 'ecommerce:clearCart' %}">
                 <button type="button" class="btn me-3 p-1" style="background: white; color: red">
                     Clean Cart
                 </button>                
             </a>
-        </div>
+        </div>       
     </div>       
 </div>
 {% for key, value in request.session.cart.items %}
@@ -33,28 +37,37 @@
             <div class="col-md-9">
                 <div class="card-body ">
                     <h5>{{value.title}}</h5>
-                    <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{value.description}}</p>
-                    <p>$ {{value.price}} {{value.cuantity}} {{value.subtotal}}</p>
-                    <p> {{value.category}} </p>
-                    <div class="">
-                        <button class="btn btn-light border-0 bg-white" type="button"><i class="fa-solid fa-chevron-up"></i></button>
-                        <input type="text" class="form-control border-0" value="{{value.cuantity}}">
-                        <button class="btn btn-light border-0 bg-white" type="button"><i class="fa-solid fa-chevron-down"></i></button>                       
+                    <h5>{{value.id}}</h5>
+                    <p class="m-0"> {{value.category}} </p>
+                    <p class="m-0"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{value.description}}</p>
+                    <p class="m-0">$ {{value.price}} - Items: {{value.cuantity}}</p>                    
+                    <div class="d-flex justify-content-between my-1">
+                        <div class="d-flex justify-content-start">                            
+                            <select class="form-select form-select-sm px-2" style="width: 8rem;">
+                                <option selected>select a color</option>
+                                <option value="1">blue</option>
+                                <option value="2">red</option>
+                                <option value="3">black</option>
+                            </select>   
+                            <input type="number" step="1" min="0" value="1" name="cuantity" class="quantity-field text-center mx-2" style="width: 3rem;">                                                    
+                        </div>
+                        <strong><p class="m-0 me-2 pt-1">Total:$ {{value.subtotal}}</p></strong>
                     </div>
                     <div class="">
                         <hr class="mb-2">
-                        <div class="d-flex justify-content-end">
-                            <a href="{% url 'ecommerce:deleteProduct' value.product_id %}">
-                                <button type="button" class="btn btn-outline-danger me-2">
-                                    Remove
-                                </button>
-                            </a>
-                            <a href="">
-                                <button type="button" class="btn" style="background: #009d71; color: white">
-                                    Add to Cart
-                                </button>
-                            </a>                            
-                        </div>                        
+                        <form action="{% url 'ecommerce:addToCart' value.product_id %}" method="post">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-end">
+                                <a href="{% url 'ecommerce:deleteProduct' value.product_id %}">
+                                    <button type="button" class="btn btn-outline-danger me-2">
+                                        Remove
+                                    </button>
+                                </a>                                
+                                <button  class="btn" style="background: #009d71; color: white" type="submit">
+                                    <i class="fa-solid fa-cart-arrow-down"></i>
+                                </button>                  
+                            </div>       
+                        </form>                 
                     </div>
                 </div>
             </div>
