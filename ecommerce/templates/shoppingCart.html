@@ -1,8 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
 
-### ver como hago que el formulario envie la cantidad (etiqueta input) del producto
 
+<div class="ms-5 mt-5">
+    <div class="ms-5 d-flex justify-content-start">
+        <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
+        <strong><h7>Home</h7></strong>
+        </a>             
+        <p class="mx-2 my-0"> / </p>
+        <p class="my-0">Shopping cart</p>
+    </div>        
+</div>
 <div class="my-4 mx-5 d-flex justify-content-center">
     <div class="card mx-5 border-light shadow" style="width: 65rem">
         <div class="mx-5 mt-2">
@@ -16,7 +24,7 @@
                     </button>
                 </a>   
                 <div class="btn me-3 p-1">
-                    <p>Total: {{request.session.totalAmount}}</p>
+                    <p>Total:$ {{request.session.totalAmount}}</p>
                 </div>                
             </div>
             <a class="justify-content-end" href="{% url 'ecommerce:clearCart' %}">
@@ -29,34 +37,33 @@
 </div>
 {% for key, value in request.session.cart.items %}
 <div class="my-4 mx-5 d-flex justify-content-center">    
-    <div class="card mx-5 border-light shadow" style="width: 65rem">
-        <div class="row g-0">
-            <div class="col-2">
-                <img src="{{value.image}}" class="m-3" style= "width: 9rem; height: 10rem;">
-            </div>
-            <div class="col-md-9">
-                <div class="card-body ">
-                    <h5>{{value.title}}</h5>
-                    <h5>{{value.id}}</h5>
-                    <p class="m-0"> {{value.category}} </p>
-                    <p class="m-0"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{value.description}}</p>
-                    <p class="m-0">$ {{value.price}} - Items: {{value.cuantity}}</p>                    
-                    <div class="d-flex justify-content-between my-1">
-                        <div class="d-flex justify-content-start">                            
-                            <select class="form-select form-select-sm px-2" style="width: 8rem;">
-                                <option selected>select a color</option>
-                                <option value="1">blue</option>
-                                <option value="2">red</option>
-                                <option value="3">black</option>
-                            </select>   
-                            <input type="number" step="1" min="0" value="1" name="cuantity" class="quantity-field text-center mx-2" style="width: 3rem;">                                                    
+    <form action="{% url 'ecommerce:addToCart' value.product_id %}" method="post">
+        {% csrf_token %}
+        <div class="card mx-5 border-light shadow" style="width: 65rem">
+            <div class="row g-0">
+                <div class="col-2">
+                    <img src="{{value.image}}" class="m-3" style= "width: 9rem; height: 10rem;">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body ">
+                        <h5>{{value.title}}</h5>                        
+                        <p class="m-0"> {{value.category}} </p>
+                        <p class="m-0"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{value.description}}</p>
+                        <p class="m-0">$ {{value.price}} - Items: {{ value.cuantity }}</p>                    
+                        <div class="d-flex justify-content-between my-1">
+                            <div class="d-flex justify-content-start">                            
+                                <select class="form-select form-select-sm px-2 border-0" style="width: 8rem;">
+                                    <option selected>select a color</option>
+                                    <option value="1">blue</option>
+                                    <option value="2">red</option>
+                                    <option value="3">black</option>
+                                </select>                                  
+                                <input type="number" step="1" min="1" value="1" name="cuantity" class="quantity-field text-center mx-2 border-0" style="width: 3rem;">                                                    
+                            </div>
+                            <strong><p class="m-0 me-2 pt-1">Total:$ {{value.subtotal | floatformat:2}}</p></strong>
                         </div>
-                        <strong><p class="m-0 me-2 pt-1">Total:$ {{value.subtotal}}</p></strong>
-                    </div>
-                    <div class="">
-                        <hr class="mb-2">
-                        <form action="{% url 'ecommerce:addToCart' value.product_id %}" method="post">
-                            {% csrf_token %}
+                        <div class="">
+                            <hr class="mb-2">
                             <div class="d-flex justify-content-end">
                                 <a href="{% url 'ecommerce:deleteProduct' value.product_id %}">
                                     <button type="button" class="btn btn-outline-danger me-2">
@@ -67,12 +74,12 @@
                                     <i class="fa-solid fa-cart-arrow-down"></i>
                                 </button>                  
                             </div>       
-                        </form>                 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>    
+        </div>   
+    </form> 
 </div>
 {% endfor %}
 
