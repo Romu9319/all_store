@@ -15,18 +15,18 @@
 {% csrf_token %}        
     <div class="col-7">            
         <div class="card border-light shadow">
-            <div class="mx-5 d-flex justify-content-center">
+            <div class="mx-5 my-2 d-flex justify-content-center">
                 <div class="form-group mt-1 me-5">                            
-                        <label for="{{ clientForm.name.id_for_label }}">Name:</label>
-                        <div>{{clientForm.name}}  </div> 
-                        <label for="{{ clientForm.name.id_for_label }}">Last name:</label>                            
-                        <div>{{clientForm.last_name}} </div>                                                   
+                    <label for="name" class="form-label">Name:</label>
+                    {{clientForm.name}} 
+                    <label for="last_name" class="form-label">Last name:</label>                            
+                    {{clientForm.last_name}}                                                 
                 </div>  
                 <div class="form-group mt-1">
-                    <label for="{{ clientForm.name.id_for_label }}">Phone:</label>      
-                    <div>{{clientForm.phone}}</div>                      
-                    <label for="{{ clientForm.name.id_for_label }}">Address: <div>{{clientForm.address}}</div></label> 
-                                                        
+                    <label for="phone" class="form-label">Phone:</label>      
+                    {{clientForm.phone}}                      
+                    <label for="address" class="form-label">Address:</label>  
+                    {{clientForm.address}}                                                        
                 </div>                      
             </div>                    
         </div>
