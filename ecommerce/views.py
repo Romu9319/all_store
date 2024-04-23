@@ -257,7 +257,7 @@ def updateClient(request):
             userUpdate.email = dataClient["email"]
             userUpdate.save()
 
-            menssage = "to funciona"
+            menssage = "User update"
 
     context = {
         "menssage":menssage,

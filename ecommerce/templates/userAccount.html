@@ -4,60 +4,52 @@
 <div class="d-flex justify-content-center">
     <h1> welcome {{user.username}}</h1>
 </div> 
+<div class="d-flex justify-content-center">
+    <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
+    <strong><h7>Home</h7></strong>
+    </a>             
+    <p class="mx-2 my-0"> / </p>
+    <p class="my-0">Account</p>
+</div> 
 <div class="d-flex justify-content-center ">           
     <div class="d-flex justify-content-center card m-5 mt-5 px-4" style="width: 20rem">
         <h3 class="m-3">My account</h3>            
         <div class="mx-3 mb-3">            
             <form method="post" action="{% url 'ecommerce:updateClient' %}">
                 {% csrf_token %}   
-                {{menssage}}             
                 <div class="form-group mt-1">
-                    <label for="{{ clientForm.name.id_for_label }}">Name:</label>
-                    <div>
-                        {{clientForm.name}}
-                    </div> 
+                    <label for="name" class="form-label">Name:</label>
+                    {{clientForm.name}}
                 </div>
                 <div class="form-group mt-1">
-                    <label for="{{ clientForm.last_name.id_for_label }}">Last name:</label>
-                    <div>
-                        {{clientForm.last_name}}
-                    </div> 
+                    <label for="last_name">Last name:</label>
+                    {{clientForm.last_name}}
                 </div>
                 <div class="form-group mt-1">
-                    <label for="{{ clientForm.email.id_for_label }}">Email:</label>
-                    <div>
-                        {{clientForm.email}}
-                    </div> 
+                    <label for="email">Email:</label>
+                    {{clientForm.email}}
                 </div>                
                 <div class="form-group mt-1">
-                    <label for="{{ clientForm.address.id_for_label }}">Address:</label>
-                    <div>
-                        {{clientForm.address}}
-                    </div>
+                    <label for="address">Address:</label>
+                    {{clientForm.address}}
                 </div>
                 <div class="form-group mt-1">
-                    <label for="{{ clientForm.phone.id_for_label }}">Phone:</label>
-                    <div>
-                        {{clientForm.phone}}
-                    </div>
-                    </div>                   
+                    <label for="phone">Phone:</label>
+                    {{clientForm.phone}}
+                </div>           
                 <div class="form-group mt-1">
-                    <label for="{{ clientForm.gender.id_for_label }}" class="form-label">Gender</label>
-                    <div>
-                        {{ clientForm.gender }}
-                    </div>                    
+                    <label for="gender" class="form-label">Gender</label>
+                    {{clientForm.gender}}
                 </div>     
-                <div class="mb-3">
-                    <label for="{{ clientForm.birthdate.id_for_label }}" class="form-label">Birthdate</label>
-                    <div>
-                        {{ clientForm.birthdate }}
-                    </div>     
+                <div class="form-group mt-1 mb-3">
+                    <label for="birthdate" class="form-label">Birthdate</label>
+                    {{clientForm.birthdate}}
+                    {{menssage}}
                 </div> 
                 <button type="submit" class="btn btn-primary">Update</button>      
             </form>
         </div>  
-    </div>    
-    
+    </div>   
 </div>
 
 {% endblock %}
