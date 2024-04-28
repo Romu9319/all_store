@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="navbar navbar-light" style="background: #009d71;">
+<nav class="navbar navbar-expand-lg navbar-light" style="background: #009d71;">
     <div class="container-fluid ms-5 m-2">
         <div class="d-flex">
             <a class="navbar-brand mx-5" style="color: white" href="/">
@@ -11,8 +11,19 @@
                 <input class="form-control me-2" name="name" type="search" placeholder="Search..." aria-label="Search">
                 <button class="btn btn-outline-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>            
-        </div>      
-        <div class="me-5 d-flex justify-content-center align-items-center">            
+        </div> <!--el carrito aquiiii-->
+        <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown link
+            </a>
+          
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
+        <!--<div class="me-5 d-flex justify-content-center align-items-center">            
             <div class="me-4">
                 <a type="button" class="btn position-relative" href="/cart">
                     <i class="fa-solid fa-cart-arrow-down" style="color: white"></i>
@@ -20,15 +31,31 @@
                         {{request.session.cart.items|length}}
                     </span>                    
                 </a>        
-            </div>    
+            </div>-->
             {% if request.session.totalAmount > 0 %}
             <div class="me-4" style="color: white">
                 <strong>$ {{request.session.totalAmount}}</strong>
             </div>
-            {% endif %}            
-            <div class="ms-1 me-5">
+            {% endif %}<!--el login -->       
+            <!--<div class="ms-1 me-5">
                 <i class="fa-regular fa-user"  style="color: white"></i>
-            </div>     
+            </div>   -->  
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                  <!-- Verifica si el usuario está autenticado -->
+                  {% if user.is_authenticated %}
+                    <!-- Si está autenticado, muestra el botón de logout -->
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'ecommerce:logoutUser' %}">Logout</a>
+                    </li>
+                  {% else %}
+                    <!-- Si no está autenticado, muestra el botón de login -->
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'ecommerce:loginUser' %}">Login</a>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
         </div>
     </div>   
 </nav>
