@@ -12,18 +12,37 @@
                 <button class="btn btn-outline-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>            
         </div> <!--el carrito aquiiii-->
-        <div class="dropdown">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown link
-            </a>
-          
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </div>
-        <!--<div class="me-5 d-flex justify-content-center align-items-center">            
+        <div class="me-5 d-flex justify-content-center align-items-center">
+            <div class="dropdown me-4">
+                <a class="btn position-relative dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-cart-arrow-down" style="color: white"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill mt-2" style="background: white; color:#009d71">
+                        {{request.session.cart.items|length}}
+                    </span>
+                </a>          
+                <ul class="dropdown-menu dropdown-menu-end">
+                {% for key,value in request.session.cart.items %}
+                    <li class="dropdown-item">
+                        <a href="{% url 'ecommerce:deleteProduct' value.product_id %}" class="remove"><i class="fa-regular fa-trash-can"></i></a>
+                        <a href="{% url 'ecommerce:productDetails' value.product_id %}" >
+                            <img class="mx-1" src="{{value.image}}" alt="" style= "width: 2rem; height: 2.5rem;">
+                            {{value.title|slice:":10"}}
+                        </a>
+                        <span >${{value.price}}</span>
+                    </li>
+                {% endfor %}
+                    <hr class="mb-1 mx-2">
+                    <div class="mx-3">
+                        <p class="my-0"><b>Total:</b>$ {{request.session.totalAmount}}</p>
+                        <p class="d-flex justify-content-start">
+                            <a href="{% url 'ecommerce:shoppingCar' %}" class="button mx-2">Ver Carrito</a> 
+                            <a href="#" class="button">Pedido</a>
+                        </p>
+                    </div>
+                </ul>
+            </div>
+
+             <!--<div class="me-5 d-flex justify-content-center align-items-center">            
             <div class="me-4">
                 <a type="button" class="btn position-relative" href="/cart">
                     <i class="fa-solid fa-cart-arrow-down" style="color: white"></i>
@@ -32,11 +51,15 @@
                     </span>                    
                 </a>        
             </div>-->
-            {% if request.session.totalAmount > 0 %}
+
+            <!--Este es el precio total a pagar en caso de tener objetos en el carrito-->
+            <!--{% if request.session.totalAmount > 0 %}
             <div class="me-4" style="color: white">
                 <strong>$ {{request.session.totalAmount}}</strong>
             </div>
-            {% endif %}<!--el login -->       
+            {% endif %} -->
+
+            <!--el login -->       
             <!--<div class="ms-1 me-5">
                 <i class="fa-regular fa-user"  style="color: white"></i>
             </div>   -->  
@@ -55,7 +78,7 @@
                     </li>
                   {% endif %}
                 </ul>
-              </div>
+            </div>
         </div>
     </div>   
 </nav>
