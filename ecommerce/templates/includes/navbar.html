@@ -3,8 +3,8 @@
     <div class="container-fluid ms-5 m-2">
         <div class="d-flex">
             <a class="navbar-brand mx-5" style="color: white" href="/">
-                <img src="" alt="" width="30" height="24" class="d-inline-block align-text-top">
-                ElLogo
+                <!--<img src="" alt="" width="30" height="24" class="d-inline-block align-text-top">-->
+                AllStore
             </a>
             <form method="get" class="d-flex ms-3" action="{% url 'ecommerce:filterByName' %}"> 
                 {% csrf_token %}               
@@ -20,7 +20,15 @@
                         {{request.session.cart.items|length}}
                     </span>
                 </a>          
-                <ul class="dropdown-menu dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-end" style="max-height: 150px; overflow-y: auto;">
+                <div class="mx-3 ">
+                    <p class="my-0"><b>Total:</b>$ {{request.session.totalAmount}}</p>
+                    <p class="d-flex justify-content-start mt-1">
+                        <a href="{% url 'ecommerce:shoppingCar' %}"><button type="button" class="btn btn-success p-1">Cart</button></a> 
+                        <a href="{% url 'ecommerce:registerOrder' %}" class="ms-2"><button type="button" class="btn btn-success p-1">Order</button></a>
+                    </p>
+                </div> 
+                <hr class="mb-1 mx-2"> 
                 {% for key,value in request.session.cart.items %}
                     <li class="dropdown-item">
                         <a href="{% url 'ecommerce:deleteProduct' value.product_id %}" class="remove"><i class="fa-regular fa-trash-can"></i></a>
@@ -31,52 +39,31 @@
                         <span >${{value.price}}</span>
                     </li>
                 {% endfor %}
-                    <hr class="mb-1 mx-2">
-                    <div class="mx-3">
-                        <p class="my-0"><b>Total:</b>$ {{request.session.totalAmount}}</p>
-                        <p class="d-flex justify-content-start">
-                            <a href="{% url 'ecommerce:shoppingCar' %}" class="button mx-2">Ver Carrito</a> 
-                            <a href="#" class="button">Pedido</a>
-                        </p>
-                    </div>
                 </ul>
             </div>
-
-             <!--<div class="me-5 d-flex justify-content-center align-items-center">            
-            <div class="me-4">
-                <a type="button" class="btn position-relative" href="/cart">
-                    <i class="fa-solid fa-cart-arrow-down" style="color: white"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill mt-2" style="background: white; color:#009d71">
-                        {{request.session.cart.items|length}}
-                    </span>                    
-                </a>        
-            </div>-->
-
-            <!--Este es el precio total a pagar en caso de tener objetos en el carrito-->
-            <!--{% if request.session.totalAmount > 0 %}
-            <div class="me-4" style="color: white">
-                <strong>$ {{request.session.totalAmount}}</strong>
-            </div>
-            {% endif %} -->
-
             <!--el login -->       
-            <!--<div class="ms-1 me-5">
-                <i class="fa-regular fa-user"  style="color: white"></i>
-            </div>   -->  
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                  <!-- Verifica si el usuario está autenticado -->
-                  {% if user.is_authenticated %}
-                    <!-- Si está autenticado, muestra el botón de logout -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'ecommerce:logoutUser' %}">Logout</a>
-                    </li>
-                  {% else %}
-                    <!-- Si no está autenticado, muestra el botón de login -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'ecommerce:loginUser' %}">Login</a>
-                    </li>
-                  {% endif %}
+            <div class="dropdown me-4">
+                <a class="btn position-relative dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-regular fa-user"  style="color: white"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" style="max-height: 150px; overflow-y: auto;">
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'ecommerce:userAccount' %}">Your profile</a>
+                        </li>
+                        <!-- Si está autenticado, muestra el botón de logout -->
+                        <li>
+                            <a class="dropdown-item" href="{% url 'ecommerce:logoutUser' %}">Sing out</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="dropdown-item" href="{% url 'ecommerce:loginUser' %}">Your profile</a>
+                        </li>
+                        <!-- Si no está autenticado, muestra el botón de login -->
+                        <li>
+                        <a  class="dropdown-item" href="{% url 'ecommerce:loginUser' %}">Login / Singup</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
