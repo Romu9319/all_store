@@ -11,60 +11,15 @@
                 <input class="form-control me-2" name="name" type="search" placeholder="Search..." aria-label="Search">
                 <button class="btn btn-outline-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>            
-        </div> <!--el carrito aquiiii-->
-        <div class="me-5 d-flex justify-content-center align-items-center">
-            <div class="dropdown me-4">
-                <a class="btn position-relative dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-cart-arrow-down" style="color: white"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill mt-2" style="background: white; color:#009d71">
-                        {{request.session.cart.items|length}}
-                    </span>
-                </a>          
-                <ul class="dropdown-menu dropdown-menu-end" style="max-height: 150px; overflow-y: auto;">
-                <div class="mx-3 ">
-                    <p class="my-0"><b>Total:</b>$ {{request.session.totalAmount}}</p>
-                    <p class="d-flex justify-content-start mt-1">
-                        <a href="{% url 'ecommerce:shoppingCar' %}"><button type="button" class="btn btn-success p-1">Cart</button></a> 
-                        <a href="{% url 'ecommerce:registerOrder' %}" class="ms-2"><button type="button" class="btn btn-success p-1">Order</button></a>
-                    </p>
-                </div> 
-                <hr class="mb-1 mx-2"> 
-                {% for key,value in request.session.cart.items %}
-                    <li class="dropdown-item">
-                        <a href="{% url 'ecommerce:deleteProduct' value.product_id %}" class="remove"><i class="fa-regular fa-trash-can"></i></a>
-                        <a href="{% url 'ecommerce:productDetails' value.product_id %}" >
-                            <img class="mx-1" src="{{value.image}}" alt="" style= "width: 2rem; height: 2.5rem;">
-                            {{value.title|slice:":10"}}
-                        </a>
-                        <span >${{value.price}}</span>
-                    </li>
-                {% endfor %}
-                </ul>
+        </div> 
+        <div class="row">
+            <!-- el carrito -->
+            <div class="col">
+                {% include "includes/navbarComponents/cart.html" %}
             </div>
-            <!--el login -->       
-            <div class="dropdown me-4">
-                <a class="btn position-relative dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-regular fa-user"  style="color: white"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" style="max-height: 150px; overflow-y: auto;">
-                    {% if user.is_authenticated %}
-                        <li>
-                            <a class="dropdown-item" href="{% url 'ecommerce:userAccount' %}">Your profile</a>
-                        </li>
-                        <!-- Si está autenticado, muestra el botón de logout -->
-                        <li>
-                            <a class="dropdown-item" href="{% url 'ecommerce:logoutUser' %}">Sing out</a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a class="dropdown-item" href="{% url 'ecommerce:loginUser' %}">Your profile</a>
-                        </li>
-                        <!-- Si no está autenticado, muestra el botón de login -->
-                        <li>
-                        <a  class="dropdown-item" href="{% url 'ecommerce:loginUser' %}">Login / Singup</a>
-                        </li>
-                    {% endif %}
-                </ul>
+            <!-- el login -->
+            <div class="col">
+                {% include "includes/navbarComponents/user.html" %}
             </div>
         </div>
     </div>   

@@ -1,0 +1,28 @@
+<div class="dropdown me-4">
+    <a class="btn position-relative dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-cart-arrow-down" style="color: white"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill mt-2" style="background: white; color:#009d71">
+            {{request.session.cart.items|length}}
+        </span>
+    </a>          
+    <ul class="dropdown-menu dropdown-menu-end" style="max-height: 150px; overflow-y: auto;">
+    <div class="mx-3 ">
+        <p class="my-0"><b>Total:</b>$ {{request.session.totalAmount}}</p>
+        <p class="d-flex justify-content-start mt-1">
+            <a href="{% url 'ecommerce:shoppingCar' %}"><button type="button" class="btn btn-success p-1">Cart</button></a> 
+            <a href="{% url 'ecommerce:registerOrder' %}" class="ms-2"><button type="button" class="btn btn-success p-1">Order</button></a>
+        </p>
+    </div> 
+    <hr class="mb-1 mx-2"> 
+    {% for key,value in request.session.cart.items %}
+        <li class="dropdown-item">
+            <a href="{% url 'ecommerce:deleteProduct' value.product_id %}" class="remove"><i class="fa-regular fa-trash-can"></i></a>
+            <a href="{% url 'ecommerce:productDetails' value.product_id %}" >
+                <img class="mx-1" src="{{value.image}}" alt="" style= "width: 2rem; height: 2.5rem;">
+                {{value.title|slice:":10"}}
+            </a>
+            <span >${{value.price}}</span>
+        </li>
+    {% endfor %}
+    </ul>
+</div>

@@ -1,26 +1,24 @@
 <div class="row d-flex justify-content-center">
-    {% for product in data %}    
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 m-4 px-0 shadow">
-          <div class="card border-light shadow" style= "width: 12rem;">
-            <a href="{% url 'ecommerce:productDetails' product.id %}">
-              {% if product.image %}
-              <img class="p-1"src="{{product.image}}" alt="" style= "width: 12rem; height: 13rem;">
-              {% else %}
-                  <img src="https://via.placeholder.com/250" alt="">
-              {% endif %} 
+    {% for product in data %}           
+        <div class="card col-md-2 col-lg-2 col-xl-2 border-light shadow scale-up m-4 px-0" style= "width: 12rem;">
+          <a href="{% url 'ecommerce:productDetails' product.id %}">
+            {% if product.image %}
+            <img class="p-1"src={{product.image}} alt="" style= "width: 12rem; height: 13rem;">
+            {% else %}
+                <img src="https://via.placeholder.com/250" alt="">
+            {% endif %} 
+          </a>
+          <div class="card-body" >
+            <a class="text-decoration-none text-dark" href="{% url 'ecommerce:productDetails' product.id %}">
+              <h5 class="card-title"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.title}}</h5>
+              <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.description}}</p>
             </a>
-            <div class="card-body" >
-              <a class="text-decoration-none text-dark" href="{% url 'ecommerce:productDetails' product.id %}">
-                <h5 class="card-title"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.title}}</h5>
-                <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.description}}</p>
-              </a>
-              </div>
-            <div class="card-footer d-flex justify-content-end align-items-center p-2">
-              <small class="text-body-secondary me-2">{{product.price}}</small>
-              <a  class="btn p-1 me-2" style="background: #009d71; color: white" href="{% url 'ecommerce:addToCart' product.id %}">
-                <i class="fa-solid fa-cart-arrow-down"></i>
-              </a>  
             </div>
+          <div class="card-footer d-flex justify-content-end align-items-center p-2">
+            <small class="text-body-secondary me-2">{{product.price}}</small>
+            <a  class="btn p-1 me-2" style="background: #009d71; color: white" href="{% url 'ecommerce:addToCart' product.id %}">
+              <i class="fa-solid fa-cart-arrow-down"></i>
+            </a>  
           </div>
         </div>
     {% endfor %}

@@ -1,0 +1,24 @@
+<div class="dropdown me-4">
+    <a class="btn position-relative dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-regular fa-user"  style="color: white"></i>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" style="max-height: 150px; overflow-y: auto;">
+        {% if user.is_authenticated %}
+            <li>
+                <a class="dropdown-item" href="{% url 'ecommerce:userAccount' %}">Your profile</a>
+            </li>
+            <!-- Si está autenticado, muestra el botón de logout -->
+            <li>
+                <a class="dropdown-item" href="{% url 'ecommerce:logoutUser' %}">Sing out</a>
+            </li>
+        {% else %}
+            <li>
+                <a class="dropdown-item" href="{% url 'ecommerce:loginUser' %}">Your profile</a>
+            </li>
+            <!-- Si no está autenticado, muestra el botón de login -->
+            <li>
+            <a  class="dropdown-item" href="{% url 'ecommerce:loginUser' %}">Login / Singup</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
