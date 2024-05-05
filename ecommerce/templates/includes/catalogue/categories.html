@@ -1,7 +1,29 @@
-<div class="row">
-    <div class="list-group list-group-flush h-100">
-        <h4 class=" list-group-item list-group-item-dark mb-0">Filter by:</h4>
-        <a class="list-group-item list-group-item-action list-group-item-dark scale-up" style="color:black" href="/"> 
+<div class="">
+    <div class="list-group list-group-flush ">
+       <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter by:
+            </a>          
+            <ul class="dropdown-menu border-0">
+                <li>
+                    <a class="list-group-item list-group-item-action border-0 scale-up" style="color:black" href="/"> 
+                    All  
+                    </a>
+                </li>                
+                {% for category, count in categories.items %}
+                    <li>
+                        <a href="{% url 'ecommerce:filterByCategory' category  %}" class="list-group-item list-group-item-action border-0 scale-up">
+                            <span class="">{{ category }}</span> : <span class="">{{count}}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        
+        
+        <!--<a class="list-group-item list-group-item-action list-group-item-dark scale-up" style="color:black" href="/"> 
             All  
         </a>
         {% for category, count in categories.items %}
@@ -9,5 +31,5 @@
                     <span class="">{{ category }}</span> : <span class="">{{count}}</span>                  
                 </a>
         {% endfor %}
-    </div>
+    </div>-->
 </div>

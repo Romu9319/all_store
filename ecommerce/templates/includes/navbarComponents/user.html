@@ -2,7 +2,7 @@
     <a class="btn position-relative dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-regular fa-user"  style="color: white"></i>
     </a>
-    <ul class="dropdown-menu dropdown-menu-end" style="max-height: 150px; overflow-y: auto;">
+    <ul class="dropdown-menu dropdown-menu-end border-0" style="max-height: 150px; overflow-y: auto;">
         {% if user.is_authenticated %}
             <li>
                 <a class="dropdown-item" href="{% url 'ecommerce:userAccount' %}">Your profile</a>
