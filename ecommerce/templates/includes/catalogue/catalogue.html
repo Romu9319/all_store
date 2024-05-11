@@ -1,11 +1,11 @@
 <div class="row d-flex justify-content-center">
     {% for product in data %}           
-        <div class="card col-md-2 col-lg-2 col-xl-2 border-light shadow scale-up m-4 px-0" style= "width: 12rem;">
-          <a href="{% url 'ecommerce:productDetails' product.id %}">
+        <div class="card col-10 col-sm-8 col-md-4 col-lg-2 border-light shadow scale-up m-3 px-0">
+          <a class="d-flex justify-content-center" href="{% url 'ecommerce:productDetails' product.id %}" >
             {% if product.image %}
-            <img class="p-1"src={{product.image}} alt="" style= "width: 12rem; height: 13rem;">
+            <img class="img-fluid"  src={{product.image}} style= "width: 12rem; height: 13rem;">
             {% else %}
-                <img src="https://via.placeholder.com/250" alt="">
+                <img src="https://via.placeholder.com/250" style= "width: 12rem; height: 13rem;">
             {% endif %} 
           </a>
           <div class="card-body" >
@@ -14,7 +14,7 @@
               <p class="card-text"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{product.description}}</p>
             </a>
             </div>
-          <div class="card-footer d-flex justify-content-end align-items-center p-2">
+          <div class="card-footer d-flex justify-content-between align-items-center p-2">
             <small class="text-body-secondary me-2">{{product.price}}</small>
             <a  class="btn p-1 me-2" style="background: #009d71; color: white" href="{% url 'ecommerce:addToCart' product.id %}">
               <i class="fa-solid fa-cart-arrow-down"></i>
