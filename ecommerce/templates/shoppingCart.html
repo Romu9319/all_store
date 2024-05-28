@@ -1,87 +1,85 @@
 {% extends "layout.html" %}
 {% block content %}
 
-
-<div class="ms-5 mt-5">
-    <div class="ms-5 d-flex justify-content-start">
+<div class="mx-5 m-3">
+    <ul class= "d-flex mx-5">
         <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
-        <strong><h7>Home</h7></strong>
+            <strong>
+                <h7>Home</h7>
+            </strong>
         </a>             
         <p class="mx-2 my-0"> / </p>
         <p class="my-0">Shopping cart</p>
-    </div>        
+    </ul>        
 </div>
-<div class="my-4 mx-5 d-flex justify-content-center">
-    <div class="card mx-5 border-light shadow" style="width: 65rem">
-        <div class="mx-5 mt-2">
-            <h2>Shopping Cart: {{request.session.cart.items|length}} items</h2>
-        </div> 
-        <div class="d-flex justify-content-between">
-            <div class="d-flex justify-content-start mx-5">
-                <a class="" href="{% url 'ecommerce:registerOrder' %}">
-                    <button type="button" class="btn me-3 p-1" style="background: #009d71; color: white">
-                        Make Payment
+<div class="row m-1 justify-content-center">
+    <div class="card m-0 col-11 col-sm-10 col-md-8 col-lg-7 border-light shadow">
+        <div class="">
+            <h3>Shopping Cart: {{request.session.cart.items|length}} items</h3>
+        </div>
+        <div class="d-flex justify-content-between m-2">
+            <div class="d-flex">
+                <a href="{% url 'ecommerce:registerOrder' %}">
+                    <button type="button" class="btn p-1" style="background: #009d71; color: white">
+                        Payment
                     </button>
                 </a>   
-                <div class="btn me-3 p-1">
+                <div class="btn p-1">
                     <p>Total:$ {{request.session.totalAmount}}</p>
-                </div>                
-            </div>
-            <a class="justify-content-end" href="{% url 'ecommerce:clearCart' %}">
+                </div>
+            </div>                   
+            <a class="" href="{% url 'ecommerce:clearCart' %}">
                 <button type="button" class="btn me-3 p-1" style="background: white; color: red">
                     Clean Cart
                 </button>                
-            </a>
-        </div>       
-    </div>       
-</div>
-{% for key, value in request.session.cart.items %}
-<div class="my-4 mx-5 d-flex justify-content-center">    
-    <form action="{% url 'ecommerce:addToCart' value.product_id %}" method="post">
-        {% csrf_token %}
-        <div class="card mx-5 border-light shadow" style="width: 65rem">
-            <div class="row g-0">
-                <div class="col-2">
-                    <img src="{{value.image}}" class="m-3" style= "width: 9rem; height: 10rem;">
-                </div>
-                <div class="col-md-9">
-                    <div class="card-body ">
-                        <h5>{{value.title}}</h5>                        
-                        <p class="m-0"> {{value.category}} </p>
-                        <p class="m-0"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{value.description}}</p>
-                        <p class="m-0">$ {{value.price}} - Items: {{ value.cuantity }}</p>                    
-                        <div class="d-flex justify-content-between my-1">
-                            <div class="d-flex justify-content-start">                            
-                                <select class="form-select form-select-sm px-2 border-0" style="width: 8rem;">
-                                    <option selected>select a color</option>
-                                    <option value="1">blue</option>
-                                    <option value="2">red</option>
-                                    <option value="3">black</option>
-                                </select>                                  
-                                <input type="number" step="1" min="1" value="1" name="cuantity" class="quantity-field text-center mx-2 border-0" style="width: 3rem;">                                                    
+            </a>         
+        </div>        
+    </div>
+    <div class="p-0 my-4 col-11 col-sm-10 col-md-8 col-lg-7">
+        {% for key, value in request.session.cart.items %}
+            <form class="my-2" action="{% url 'ecommerce:addToCart' value.product_id %}" method="post">
+            {% csrf_token %}
+                <div class="card border-light shadow h-100">
+                    <div class="row g-0">
+                        <div class="col-11 col-sm-8 col-md-6 col-lg-3 d-flex justify-content-center align-items-center">
+                            <img src="{{value.image}}" class="img-fluid m-1" style= "width: 9rem; height: 10rem;">
+                        </div>            
+                        <div class="col-11 col-sm-8 col-md-6 col-lg-6 card-body d-flex flex-column justify-content-center">
+                            <h5>{{value.title}}</h5>                        
+                            <p class="m-0"> {{value.category}} </p>
+                            <p class="m-0 flex-grow-1" >{{value.description}} </p> 
+                            <p class="m-0">$ {{value.price}} - Items: {{ value.cuantity }}</p>                    
+                            <div class="d-flex justify-content-between my-1">
+                                <div class="d-flex justify-content-start">                            
+                                    <select class="form-select form-select-sm px-2 border-0" style="width: 8rem;">
+                                        <option selected>select a color</option>
+                                        <option value="1">blue</option>
+                                        <option value="2">red</option>
+                                        <option value="3">black</option>
+                                    </select>                                  
+                                    <input type="number" step="1" min="1" value="1" name="cuantity" class="quantity-field text-center mx-2 border-0" style="width: 3rem;">                                                    
+                                </div>
+                                <strong><p class="m-0 me-2 pt-1">Total:$ {{value.subtotal | floatformat:2}}</p></strong>
                             </div>
-                            <strong><p class="m-0 me-2 pt-1">Total:$ {{value.subtotal | floatformat:2}}</p></strong>
-                        </div>
-                        <div class="">
-                            <hr class="mb-2">
-                            <div class="d-flex justify-content-end">
-                                <a href="{% url 'ecommerce:deleteProduct' value.product_id %}">
-                                    <button type="button" class="btn btn-outline-danger me-2">
-                                        Remove
-                                    </button>
-                                </a>                                
-                                <button  class="btn" style="background: #009d71; color: white" type="submit">
-                                    <i class="fa-solid fa-cart-arrow-down"></i>
-                                </button>                  
-                            </div>       
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>   
-    </form> 
+                            <div>
+                                <hr class="mb-2">
+                                <div class="d-flex justify-content-end">
+                                    <a href="{% url 'ecommerce:deleteProduct' value.product_id %}">
+                                        <button type="button" class="btn btn-outline-danger me-2">
+                                            Remove
+                                        </button>
+                                    </a>                                
+                                    <button  class="btn" style="background: #009d71; color: white" type="submit">
+                                        <i class="fa-solid fa-cart-arrow-down"></i>
+                                    </button>                  
+                                </div>       
+                            </div>
+                        </div>                
+                    </div>                                    
+                </div>   
+            </form> 
+        {% endfor %}
+    </div>        
 </div>
-{% endfor %}
-
 
 {% endblock %}

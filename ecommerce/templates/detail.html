@@ -1,46 +1,51 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="mx-5 m-3">
-        <ul class= "d-flex mx-5">
-            <a href="/">Home</a>
-            <p class="mx-3"> / </p>
-            <p>Product</p>
-        </ul>
+
+<div class="mx-5 m-3">
+    <ul class= "d-flex mx-5">
+        <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/">
+            <strong>
+                <h7>Home</h7>
+            </strong>
+        </a>
+        <p  class="mx-2 my-0"> / </p>
+        <p class="my-0">Product</p>
+    </ul>
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="card col-11 col-md-6 col-lg-3  my-2 mx-sm-2 mx-md-2 mx-lg-2 my-lg-5 border-light shadow">
+        <div class="m-3 d-flex justify-content-center">
+            <img class="p-1 img-fluid"src={{product.image}} style= "width: 12rem; height: 13rem;">
+        </div>           
+    </div>            
+    <div class="card col-11 col-md-6 col-lg-4  my-2 mx-sm-2 mx-md-2 mx-lg-2 my-lg-5 border-light shadow">      
+        <div class="m-3">
+            <div>
+                <p class="mb-2">{{product.category}}</p> 
+                <h5>{{product.title}}</h5> 
+            </div>                
+            <p class="prod-excerpt">{{product.description|slice:":200"}} ...</p>
+            <form class="d-flex justify-content-between" action="{% url 'ecommerce:addToCart' product.id %}" method="post">
+                {% csrf_token %}
+                    <div class="d-flex justify-content-center">                            
+                        <select class="form-select form-select-sm px-2 mx-2" style="width: 8rem;">
+                            <option selected>select a color</option>
+                            <option value="1">blue</option>
+                            <option value="2">red</option>
+                            <option value="3">black</option>
+                        </select>   
+                        <input type="number" step="1" min="0" value="1" name="cuantity" class="quantity-field text-center" style="width: 3rem;">                                                    
+                    </div> 
+                    <div class="d-flex justify-content-center">
+                        <div class="mx-2 pt-2">
+                            <h5>$ {{ product.price }}</h5>
+                        </div>
+                        <button class="btn" style="background: #009d71; color: white" type="submit">
+                            <i class="fa-solid fa-cart-arrow-down"></i>
+                        </button>  
+                    </div>       
+            </form>
+        </div>  
     </div>
-    <div class="row d-flex justify-content-center">
-        <div class="card col-10 col-md-6 col-lg-3  my-2 mx-sm-2 mx-md-2 mx-lg-2 my-lg-5 border-light shadow">
-            <div class="m-3 d-flex justify-content-center">
-                <img class="p-1 img-fluid"src={{product.image}} style= "width: 12rem; height: 13rem;">
-            </div>           
-        </div>            
-        <div class="card col-10 col-md-6 col-lg-4  my-2 mx-sm-2 mx-md-2 mx-lg-2 my-lg-5 border-light shadow">      
-            <div class="m-3">
-                <div>
-                    <p class="mb-2">{{product.category}}</p> 
-                    <h5>{{product.title}}</h5> 
-                </div>                
-                <p class="prod-excerpt" style="">{{product.description|slice:":200"}} ...</p>
-                <form class="d-flex justify-content-between" action="{% url 'ecommerce:addToCart' product.id %}" method="post">
-                    {% csrf_token %}
-                        <div class="d-flex justify-content-center">                            
-                            <select class="form-select form-select-sm px-2 mx-2" style="width: 8rem;">
-                                <option selected>select a color</option>
-                                <option value="1">blue</option>
-                                <option value="2">red</option>
-                                <option value="3">black</option>
-                            </select>   
-                            <input type="number" step="1" min="0" value="1" name="cuantity" class="quantity-field text-center" style="width: 3rem;">                                                    
-                        </div> 
-                        <div class="d-flex justify-content-center">
-                            <div class="mx-2 pt-2">
-                                <h5>$ {{ product.price }}</h5>
-                            </div>
-                            <button class="btn" style="background: #009d71; color: white" type="submit">
-                                <i class="fa-solid fa-cart-arrow-down"></i>
-                            </button>  
-                        </div>       
-                </form>
-            </div>  
-        </div>
-    </div>
+</div>
 {% endblock  %}
