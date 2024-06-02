@@ -1,75 +1,78 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="ms-5 mt-5">
-    <div class="ms-5 d-flex justify-content-start">
+<div class="my-3 mx-1 mx-sm-2 mx-mdx-3 mx-lg-4">
+    <ul class= "d-flex mx-5">
         <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
-        <strong><h7>Home</h7></strong>
+            <strong>
+                <h7>Home</h7>
+            </strong>
         </a>             
         <p class="mx-2 my-0"> / </p>
-        <p class="my-0">Personal and shipping information</p>
-    </div>        
-</div>     
-<form class="row mx-5 mt-3 d-flex justify-content-center" method="post" action="{% url 'ecommerce:confirmOrder' %}">
-{% csrf_token %}        
-    <div class="col-7">            
-        <div class="card border-light shadow">
-            <div class="mx-5 my-2 d-flex justify-content-center">
-                <div class="form-group mt-1 me-5">                            
-                    <label for="name" class="form-label">Name:</label>
-                    {{clientForm.name}} 
-                    <label for="last_name" class="form-label">Last name:</label>                            
-                    {{clientForm.last_name}}                                                 
-                </div>  
-                <div class="form-group mt-1">
-                    <label for="phone" class="form-label">Phone:</label>      
-                    {{clientForm.phone}}                      
-                    <label for="address" class="form-label">Address:</label>  
-                    {{clientForm.address}}                                                        
-                </div>                      
-            </div>                    
+        <p class="my-0">Shipment information</p>
+    </ul>        
+</div>    
+<div class="row m-1 justify-content-center">
+    <div class="card m-0 col-11 col-sm-10 col-md-8 col-lg-7 border-light shadow">
+        <h2 class="mx-3">Summary</h2>
+        <div class="d-flex">
+            <h4 class="ms-3">Shopping Cart: {{request.session.cart.items|length}} items - </h4>
+            <h4 class="ms-1"> $ {{request.session.totalAmount}}</h4>
         </div>
-        {% for key, value in request.session.cart.items %}
-            <div class="card border-light shadow mt-2">
-                <div class="mt-2">  
-                    <div class="row g-0">
-                        <div class="col-2 ms-3">
-                            <img src="{{value.image}}" class="m-3" style= "width: 9rem; height: 10rem;">
-                        </div> 
-                        <div class="col-6 ms-5">
-                            <h5>{{value.title}}</h5>
-                            <p class="m-0"> {{value.category}} </p>
-                            <p class="m-0"  style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{value.description}}</p>
-                            <p class="m-0">$ {{value.price}} - Items: {{ value.cuantity }}</p>
-                        </div>
-                    </div>                  
-                </div>            
-                <hr class="mb-2 mx-5">
-                <div class="d-flex justify-content-end mb-2 mx-5">
-                    <a href="{% url 'ecommerce:deleteProduct' value.product_id %}">
-                        <button type="button" class="btn btn-outline-danger me-2">
-                        X
-                        </button>
-                    </a>                          
-                </div>             
+        <div class="d-flex justify-content-end m-2">          
+            <button type="submit" value="Pay order" class="btn" style="background: #009d71; color: white">Pay order</button>   
+        </div>
+    </div>
+    <div class="container p-0 my-4 col-11 col-sm-10 col-md-8 col-lg-7">
+        <!-- Formulario del cliente -->
+        <form class="my-2" method="post" action="{% url 'ecommerce:confirmOrder' %}">
+            {% csrf_token %}
+            <div class="card mb-3 border-light shadow">
+                <div class="m-3 d-flex justify-content-center">
+                    <div class="form-group mt-1 me-5">                            
+                        <label for="name" class="form-label">Name:</label>
+                        {{clientForm.name}} 
+                        <label for="last_name" class="form-label">Last name:</label>                            
+                        {{clientForm.last_name}}                                                 
+                    </div>  
+                    <div class="form-group mt-1">
+                        <label for="phone" class="form-label">Phone:</label>      
+                        {{clientForm.phone}}                      
+                        <label for="address" class="form-label">Address:</label>  
+                        {{clientForm.address}}                                                        
+                    </div>                      
+                </div>                    
             </div>
-        {% endfor %} 
+        </form>
+
+        {% for key, value in request.session.cart.items %}
+        <form class="my-2" method="post" action="{% url 'ecommerce:confirmOrder' %}">
+        {% csrf_token %}                
+            <div class="card border-light shadow">                  
+                <div class="row g-0">
+                    <div class="col-11 col-sm-8 col-md-6 col-lg-3 d-flex justify-content-center align-items-center">
+                        <img src="{{value.image}}" class="img-fluid m-1" style="width: 9rem; height: 10rem;">
+                    </div> 
+                    <div class="col-11 col-sm-8 col-md-6 col-lg-9 card-body d-flex flex-column justify-content-center">
+                        <h5>{{value.title}}</h5>                        
+                        <p class="m-0">{{value.category}}</p>
+                        <p class="m-0 flex-grow-1">{{value.description}}</p> 
+                        <p class="m-0">$ {{value.price}} - Items: {{ value.cuantity }}</p> 
+                        <div>
+                            <hr class="mb-2">
+                            <div class="d-flex justify-content-end mb-2">
+                                <a href="{% url 'ecommerce:deleteProduct' value.product_id %}">
+                                    <button type="button" class="btn btn-outline-danger me-2">
+                                        X
+                                    </button>
+                                </a>                          
+                            </div>                         
+                        </div>
+                    </div>                
+                </div>                                     
+            </div>                
+        </form>     
+        {% endfor %}    
     </div>
-    <div class="card border-light shadow col-3" style="height: 12rem">
-        <h2 class="d-flex justify-content-end me-3">Summary</h2>
-        <div class="d-flex justify-content-between mx-3">
-            <h3 class="me-3" >Items:</h3>
-            <h3>{{request.session.cart.items|length}}</h3>
-        </div>
-        <div class="d-flex justify-content-between mx-3">
-            <h3 class="me-3" >Total:</h3>
-            <h3>$ {{request.session.totalAmount}}</h3>
-        </div>
-        <div class="d-flex justify-content-center mt-2">
-            <a>
-                <button type="submit" value="Pay order" class="btn" style="background: #009d71; color: white">Pay order</button>
-            </a>            
-        </div>                
-    </div>
-</form>               
+</div>
 {% endblock %}
