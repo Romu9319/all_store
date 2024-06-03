@@ -12,21 +12,20 @@
         <p class="my-0">Shipment information</p>
     </ul>        
 </div>    
-<div class="row m-1 justify-content-center">
-    <div class="card m-0 col-11 col-sm-10 col-md-8 col-lg-7 border-light shadow">
-        <h2 class="mx-3">Summary</h2>
-        <div class="d-flex">
-            <h4 class="ms-3">Shopping Cart: {{request.session.cart.items|length}} items - </h4>
-            <h4 class="ms-1"> $ {{request.session.totalAmount}}</h4>
+<form class="my-2" method="post" action="{% url 'ecommerce:confirmOrder' %}">
+{% csrf_token %}
+    <div class="row m-1 justify-content-center">          
+        <div class="card m-0 col-11 col-sm-10 col-md-8 col-lg-7 border-light shadow">
+            <h2 class="mx-3">Summary</h2>
+            <div class="d-flex">
+                <h4 class="ms-3">Shopping Cart: {{request.session.cart.items|length}} items - </h4>
+                <h4 class="ms-1"> $ {{request.session.totalAmount}}</h4>
+            </div>
+            <div class="d-flex justify-content-end m-2">          
+                <button type="submit" value="Pay order" class="btn" style="background: #009d71; color: white">Pay order</button>   
+            </div>
         </div>
-        <div class="d-flex justify-content-end m-2">          
-            <button type="submit" value="Pay order" class="btn" style="background: #009d71; color: white">Pay order</button>   
-        </div>
-    </div>
-    <div class="container p-0 my-4 col-11 col-sm-10 col-md-8 col-lg-7">
-        <!-- Formulario del cliente -->
-        <form class="my-2" method="post" action="{% url 'ecommerce:confirmOrder' %}">
-            {% csrf_token %}
+        <div class="container p-0 my-4 col-11 col-sm-10 col-md-8 col-lg-7">
             <div class="card mb-3 border-light shadow">
                 <div class="m-3 d-flex justify-content-center">
                     <div class="form-group mt-1 me-5">                            
@@ -43,12 +42,8 @@
                     </div>                      
                 </div>                    
             </div>
-        </form>
-
-        {% for key, value in request.session.cart.items %}
-        <form class="my-2" method="post" action="{% url 'ecommerce:confirmOrder' %}">
-        {% csrf_token %}                
-            <div class="card border-light shadow">                  
+            {% for key, value in request.session.cart.items %}                            
+            <div class="card my-2 border-light shadow">                  
                 <div class="row g-0">
                     <div class="col-11 col-sm-8 col-md-6 col-lg-3 d-flex justify-content-center align-items-center">
                         <img src="{{value.image}}" class="img-fluid m-1" style="width: 9rem; height: 10rem;">
@@ -57,22 +52,13 @@
                         <h5>{{value.title}}</h5>                        
                         <p class="m-0">{{value.category}}</p>
                         <p class="m-0 flex-grow-1">{{value.description}}</p> 
-                        <p class="m-0">$ {{value.price}} - Items: {{ value.cuantity }}</p> 
-                        <div>
-                            <hr class="mb-2">
-                            <div class="d-flex justify-content-end mb-2">
-                                <a href="{% url 'ecommerce:deleteProduct' value.product_id %}">
-                                    <button type="button" class="btn btn-outline-danger me-2">
-                                        X
-                                    </button>
-                                </a>                          
-                            </div>                         
-                        </div>
+                        <p class="m-0">$ {{value.price}} - Items: {{ value.cuantity }}</p>                         
                     </div>                
                 </div>                                     
-            </div>                
-        </form>     
-        {% endfor %}    
+            </div> 
+            {% endfor %}    
+        </div>
     </div>
-</div>
+</form>
+
 {% endblock %}
