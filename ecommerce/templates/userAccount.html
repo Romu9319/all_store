@@ -1,18 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="d-flex justify-content-center">
-    <h1> welcome {{user.username}}</h1>
-</div> 
-<div class="d-flex justify-content-center">
-    <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
-    <strong><h7>Home</h7></strong>
-    </a>             
-    <p class="mx-2 my-0"> / </p>
-    <p class="my-0">Account</p>
-</div> 
-<div class="d-flex justify-content-center ">           
-    <div class="d-flex justify-content-center card m-5 mt-5 px-4" style="width: 20rem">
+
+<div class="my-3 mx-1 mx-sm-2 mx-mdx-3 mx-lg-4">    
+    <ul class= "mx-5">
+        <h2> welcome {{user.username}}</h2>
+        <div class="d-flex">
+            <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
+                <strong>
+                    <h7>Home</h7>
+                </strong>
+            </a>             
+            <p class="mx-2 my-0"> / </p>
+            <p class="my-0">Account</p>
+        </div>       
+    </ul>  
+</div>
+<div class="row m-1 justify-content-center">           
+    <div class="card m-0 col-11 col-sm-10 col-md-8 col-lg-4 border-light shadow">
         <h3 class="m-3">My account</h3>            
         <div class="mx-3 mb-3">            
             <form method="post" action="{% url 'ecommerce:updateClient' %}">

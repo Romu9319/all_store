@@ -1,28 +1,30 @@
 {% extends "layout.html" %}
-
 {% block content %}
-<div class="my-4 mx-5 d-flex justify-content-center">
-    <div class="card mx-5 border-light shadow" style="width: 30rem">
+
+<div class="my-3 mx-1 mx-sm-2 mx-mdx-3 mx-lg-4">
+    <ul class= "d-flex mx-5">
+        <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
+            <strong>
+                <h7>Home</h7>
+            </strong>
+        </a>             
+        <p class="mx-2 my-0"> / </p>
+        <p class="my-0">Registration & Login</p>
+    </ul>        
+</div>
+<div class="row m-1 justify-content-center">
+    <div class="card m-0 col-11 col-sm-10 col-md-8 col-lg-4 border-light shadow">
         <div class="mx-4 mt-2">
             <h4>SingUp</h4>
-        </div> 
-        
+        </div>         
         <div class="mx-4">
-            <h6>Welcome</h6>                      
+            <h6>Welcome Back</h6>                      
         </div>         
     </div>       
 </div>
-<div class="d-flex justify-content-center">     
-    <div class="card mx-5 border-light shadow" style="width: 30rem">
-        <div class="d-flex mx-4 mt-3">             
-            <a class="link-secondary link-offset-2 link-underline-opacity-0 link-opacity-25" href="/"> 
-                <strong><h7>Home</h7></strong>
-            </a>             
-            <p class="mx-2 my-0"> / </p>
-            <p class="my-0">Registration & Login</p>
-        </div>
-        <hr class="mx-4">
-        <form class="mx-4 mb-3" method="post" action="{% url 'ecommerce:singupUser'%}">
+<div class="row m-1 mt-3 justify-content-center">     
+    <div class="card col-11 col-sm-10 col-md-8 col-lg-4 border-light shadow">
+        <form class="mx-4 my-3" method="post" action="{% url 'ecommerce:singupUser'%}">
             {% csrf_token %}
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Email address</label>
