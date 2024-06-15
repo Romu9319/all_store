@@ -5,7 +5,7 @@ Django==5.0
 django-paypal==2.0
 fontawesomefree==6.5.1
 idna==3.6
-mysqlclient==2.2.0
+mysqlclient
 Pillow==10.1.0
 pytz==2024.1
 requests==2.31.0
