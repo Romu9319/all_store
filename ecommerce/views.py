@@ -1,8 +1,14 @@
 from django.urls import reverse
+
 from django.shortcuts import render, redirect
+
 from .models import Category, Product, Client, Order, OrderDetail
+
 from paypal.standard.forms import PayPalPaymentsForm 
+
 from django.core.mail import send_mail
+
+from django.conf import settings
 
 import requests
 import difflib
@@ -357,7 +363,7 @@ def confirmOrder(request):
         request.session['orderId'] = newOrder.id
             
         paypal_dict = {
-            "business": "sb-nntlf27846788@business.example.com",
+            "business": settings.PAYPAL_USER_EMAIL,
             "amount": totalAmount,
             "item_name": "Order Code" + orderNumber,
             "invoice": orderNumber,
@@ -392,7 +398,7 @@ def thanks(request):
         send_mail(
             "Confirmacion de pedido",
             "Numero de pedido" + order.order_number,
-            "danielerm1510@gmail.com",
+            settings.ADMIN_USER_EMAIL,
             [request.user.email],
             fail_silently=False,
         )
