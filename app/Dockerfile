@@ -25,6 +25,6 @@ RUN pip install -r requirements.txt
 #copiamos todo el proyecto
 COPY . .
 
-CMD ["gunicorn", "--bind", "0.0.0.0:3762", "allstore.wsgi:application"]
+#CMD python manage.py runserver
 
 #EXPOSE 8000
