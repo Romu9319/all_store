@@ -25,6 +25,6 @@ RUN pip install -r requirements.txt
 #copiamos todo el proyecto
 COPY . .
 
-CMD python manage.py runserver
+#CMD python manage.py runserver
 
-EXPOSE 8000
+#EXPOSE 8000

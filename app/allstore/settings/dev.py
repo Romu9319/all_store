@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'allstore.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": 'django.db.backends.mysql',
-        "NAME": "allstore",
+        "NAME": "db_allstore",
         "USER": "root",
-        "PASSWORD": "",
+        "PASSWORD": "93827164",
         "HOST": "127.0.0.1",
         "PORT": "3306",
 }
